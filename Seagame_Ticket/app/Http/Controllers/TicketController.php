@@ -65,4 +65,25 @@ class TicketController extends Controller
         }
         return response()->json(['message' =>"ID not found"],200);
     }
+
+
+    public function buyTicket(Request $request,string $id)
+    {
+        //
+        $ticket = Ticket::all()->where('event_id',$id);
+        $ticketCount = 0;
+        for ($i = 0; $i < count($ticket); $i++) {
+                $ticketCount += 1;
+        }
+        if($ticketCount < 10){
+            $data= Ticket::create([
+                'name' => 'Sea game Ticket 2023',
+                'event_id' => $id,
+    
+            ]);
+            $ticket = Ticket::with('event')->where('id',$data->id)->get();
+            return response()->json(['message'=>'You data create successfully','data'=>$ticket],200);
+        }
+        return response()->json(['message'=>'Ticket event '.$id . ' is sold out'],200);
+    }
 }

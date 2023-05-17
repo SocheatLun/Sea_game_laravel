@@ -23,30 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 //EventHandler
-Route::get('/events', [EventController::class, 'index']);
-Route::get('/search/{date}', [EventController::class, 'searchByDate']);
-Route::post('/events', [EventController::class, 'store']);
-Route::put('/events/{id}', [EventController::class, 'update']);
-Route::delete('/events/{id}', [EventController::class, 'destroy']);
+Route::resource('events',EventController::class );
 Route::get('/find/{title}', [EventController::class, 'findeEventBy']);
+Route::get('/search/{date}', [EventController::class, 'searchByDate']);
 
 //TicketHandler
-Route::get('/tickets',[TicketController::class,'index']);
-Route::post('/tickets',[TicketController::class,'store']);
-Route::put('/tickets/{id}',[TicketController::class,'update']);
-Route::delete('/tickets/{id}',[TicketController::class,'destroy']);
+Route::resource('tickets',TicketController::class );
+Route::get('/booking/{id}',[TicketController::class,'buyTicket']);
 
 // StadiumHandler
-Route::get('/stadium',[StadiumController::class,'index']);
-Route::post('/stadium',[StadiumController::class,'store']);
-Route::put('/stadium/{id}',[StadiumController::class,'update']);
-Route::delete('/stadium/{id}',[StadiumController::class,'destroy']);
+Route::resource('stadium',StadiumController::class );
 
 // ZoneHandler
-Route::get('/zone',[ZoneController::class,'index']);
-Route::post('/zone',[ZoneController::class,'store']);
-Route::put('/zone/{id}',[ZoneController::class,'update']);
-Route::delete('/zone/{id}',[ZoneController::class,'destroy']);
+Route::resource('zones',ZoneController::class );
 
 // EventDetailHandler
 Route::get('/detail',[EventDetailController::class,'index']);

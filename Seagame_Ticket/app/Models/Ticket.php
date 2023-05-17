@@ -12,7 +12,7 @@ class Ticket extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'date',
+        'name',
         'event_id',
     ];
     public function event():BelongsTo
