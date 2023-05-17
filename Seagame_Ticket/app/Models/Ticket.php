@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -14,7 +15,8 @@ class Ticket extends Model
         'date',
         'event_id',
     ];
-    protected function event():HasOne{
-        return $this->hasOne(Event::class);
+    public function event():BelongsTo
+    {
+        return $this->belongsTo(Event::class);
     }
 }

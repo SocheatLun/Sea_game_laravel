@@ -12,54 +12,48 @@ class StadiumController extends Controller
      */
     public function index()
     {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         //
+        // $data = Stadium::with('zone')->get();
+        $data = Stadium::join('zones', 'stadia.zone_id', '=', 'zones.id')
+                ->select('stadia.*', 'zones.name as zone_name')
+                ->get();
+        return response()->json(['message'=>'This is a list of stadium','data'=>$data],200);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
-    }
+        $data= Stadium::create([
+            'name' => $request['name'],
+            'zone_id' => $request['zone_id'],
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Stadium $stadium)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Stadium $stadium)
-    {
-        //
+        ]);
+        return response()->json(['message'=>'You data create successfully'],200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Stadium $stadium)
+    public function update(Request $request, $id)
     {
         //
+        $data = Stadium::find($id);
+        $data->update([
+            'name' => $request['name'],
+            'zone_id' => $request['zone_id'],
+
+        ]);
+        return response()->json(['message'=>'You data update successfully'],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Stadium $stadium)
+    public function destroy($id)
     {
         //
+        $data= Stadium::find($id);
+        $data->destroy($id);
+        return response()->json(['message'=>'You data deleted successfully'],200);
     }
 }

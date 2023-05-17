@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Stadium extends Model
@@ -14,10 +13,12 @@ class Stadium extends Model
         'name',
         'zone_id',
     ];
-    protected function zone():HasMany{
-        return $this->hasMany(Zone::class);
+    public function zone()
+    {
+        return $this->hasOne(Zone::class);
     }
-    protected function event():BelongsTo{
-        return $this->belongsTo(Event::class);
+    public function event():HasMany
+    {
+        return $this->hasMany(Event::class);
     }
 }

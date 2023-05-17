@@ -14,7 +14,8 @@ class EventDetail extends Model
         'matching',
         'description'
     ];
-    protected function event():BelongsTo{
+    public function event():BelongsTo
+    {
         return $this->belongsTo(Event::class);
     }
 }

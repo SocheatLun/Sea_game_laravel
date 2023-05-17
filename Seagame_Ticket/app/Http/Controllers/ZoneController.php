@@ -13,14 +13,8 @@ class ZoneController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $zone = Zone::all();
+        return response()->json(['message' => 'Your request is successful', 'data' => $zone], 200);
     }
 
     /**
@@ -29,37 +23,41 @@ class ZoneController extends Controller
     public function store(Request $request)
     {
         //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Zone $zone)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Zone $zone)
-    {
-        //
+        $zone = Zone::create([
+            'name' => $request['name'],
+        ]);
+        return response()->json(['message' => 'You data create successfully', 'data' => $zone], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Zone $zone)
+    public function update(Request $request, $id)
     {
         //
+        $zone =  Zone::find($id);
+        if($zone){
+            $zone->update([
+                'name' => $request['name'],
+            ]);
+            return response()->json(['message' => 'You data update successfully', 'data' => $zone], 200);
+        }
+        return response()->json(['message' => "Don't have this ". $id], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Zone $zone)
+    public function destroy($id)
     {
         //
+        $zone = Zone::find($id);
+        if($zone){
+
+            $zone->destroy($id);
+            return response()->json(['message' => 'You data deleted successfully'], 200);
+        }
+        return response()->json(['message' => "Don't have this ". $id], 200);
     }
 }

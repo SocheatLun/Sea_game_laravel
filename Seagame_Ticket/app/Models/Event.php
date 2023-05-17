@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Event extends Model
@@ -18,13 +17,15 @@ class Event extends Model
         'stadium_id',
         'event_detail_id',
     ];
-    protected function stadium():HasOne{
-        return $this->hasOne(Stadium::class);
+    public function stadium()
+    {
+        return $this->belongsTo(Stadium::class);
     }
-    protected function event_detailid():HasOne{
-        return $this->hasOne(EventDetail::class);
+    public function eventDetails():HasMany
+    {
+        return $this->hasMany(EventDetail::class);
     }
-    protected function tickets():BelongsToMany{
-        return $this->belongsToMany(Ticket::class);
+    protected function tickets():HasMany{
+        return $this->hasMany(Ticket::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EventDetail;
+use App\Models\Stadium;
 use Illuminate\Http\Request;
 
 class EventDetailController extends Controller
@@ -13,14 +14,8 @@ class EventDetailController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $detail = EventDetail::all();
+        return response()->json(['message' => 'Your request is successful', 'data' => $detail], 200);
     }
 
     /**
@@ -29,37 +24,45 @@ class EventDetailController extends Controller
     public function store(Request $request)
     {
         //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(EventDetail $eventDetail)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EventDetail $eventDetail)
-    {
-        //
+        $detail = EventDetail::create([
+            'time' => $request['time'],
+            'matching'=> $request['matching'],
+            'description'=> $request['description']
+        ]);
+        return response()->json(['message' => 'You data create successfully', 'data' => $detail], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EventDetail $eventDetail)
+    public function update(Request $request, $id)
     {
         //
+        $detail =  EventDetail::find($id);
+        if($detail){
+            $detail->update([
+                'time' => $request['time'],
+                'matching'=> $request['matching'],
+                'description'=> $request['description']
+            ]);
+            return response()->json(['message' => 'You data update successfully', 'data' => $detail], 200);
+        }
+        return response()->json(['message' => "Don't have this ". $id], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EventDetail $eventDetail)
+    public function destroy($id)
     {
         //
+        $detail = EventDetail::find($id);
+        if($detail){
+
+            $detail->destroy($id);
+            return response()->json(['message' => 'You data deleted successfully'], 200);
+        }
+        return response()->json(['message' => "Don't have this ". $id], 200);
     }
 }

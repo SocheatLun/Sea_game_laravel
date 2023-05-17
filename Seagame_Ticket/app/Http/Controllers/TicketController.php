@@ -13,15 +13,10 @@ class TicketController extends Controller
     public function index()
     {
         //
+        $tickets = Ticket::with('event')->get();
+        return response()->json(['message'=>'This is a list of tickets','data'=>$tickets],200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -29,37 +24,45 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         //
-    }
+        $data= Ticket::create([
+            'name' => $request['name'],
+            'event_id' => $request['event_id'],
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Ticket $ticket)
-    {
-        //
+        ]);
+        $ticket = Ticket::with('event')->where('id',$data->id)->get();
+        return response()->json(['message'=>'You data create successfully','data'=>$ticket],200);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ticket $ticket)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, Ticket $id)
     {
         //
+        $data = Ticket::find($id);
+        if($data){
+            $data->update([
+                'name' => $request['name'],
+                'event_id' => $request['event_id'],
+    
+            ]);
+            $ticket = Ticket::with('event')->where('id',$data->id)->get();
+            return response()->json(['message'=>'You data updated','data'=>$ticket],200);
+        }
+        return response()->json(['message' =>"ID not found"],200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ticket $ticket)
+    public function destroy($id)
     {
         //
+        $data = Ticket::find($id);
+        if ($data){
+            $data->destroy($id);
+            $tickets = Ticket::with('event')->get();
+            return response()->json(['message'=>'You data is deleted','data'=>$tickets],200);
+        }
+        return response()->json(['message' =>"ID not found"],200);
     }
 }
