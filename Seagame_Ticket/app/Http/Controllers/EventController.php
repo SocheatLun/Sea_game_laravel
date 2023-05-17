@@ -92,8 +92,8 @@ class EventController extends Controller
         $events = [];
         for ($i = 0; $i <count($data); $i++) {
             if ($data[$i]->title == $title){
-                $events = Event::with('eventDetails','stadium')->where('id',$data[$i]->id)->get();
-                array_push($result, $events);	
+                $event = Event::with('eventDetails','stadium')->where('id',$data[$i]->id)->get();
+                array_push($events, $event);	
             }
         }
         return response()->json(['message' =>'This is events','data'=>$events],200);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\EventDetail;
 use App\Models\Stadium;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EventDetailController extends Controller
 {
@@ -57,10 +58,8 @@ class EventDetailController extends Controller
     public function destroy($id)
     {
         //
-        $detail = EventDetail::find($id);
+        $detail = DB::table('event_details')->where('event_id', $id)->delete();
         if($detail){
-
-            $detail->destroy($id);
             return response()->json(['message' => 'You data deleted successfully'], 200);
         }
         return response()->json(['message' => "Don't have this ". $id], 200);
